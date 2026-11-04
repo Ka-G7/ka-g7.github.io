@@ -1,0 +1,110 @@
+<div id="post-list" class="flex-grow-1 px-xl-1">
+  {% for post in include.posts %}
+    <article
+      class="card-wrapper card"
+      {% if include.carousel %}
+        data-featured-slide
+        aria-label="{{ forloop.index }} / {{ forloop.length }}"
+        {% unless forloop.first %}hidden{% endunless %}
+      {% endif %}
+      {% if include.filterable %}
+        data-filterable-post
+        data-post-categories="{{ post.categories | join: '||' | escape }}"
+        data-post-tags="{{ post.tags | join: '||' | escape }}"
+      {% endif %}
+    >
+      <a href="{{ post.url | relative_url }}" class="post-preview row g-0 flex-md-row-reverse">
+        {% assign card_body_col = '12' %}
+
+        {% if post.image %}
+          {% assign src = post.image.path | default: post.image %}
+
+          {% if post.media_subpath %}
+            {% unless src contains '://' %}
+              {% assign src = post.media_subpath
+                | append: '/'
+                | append: src
+                | replace: '///', '/'
+                | replace: '//', '/'
+              %}
+            {% endunless %}
+          {% endif %}
+
+          {% if post.image.lqip %}
+            {% assign lqip = post.image.lqip %}
+
+            {% if post.media_subpath %}
+              {% unless lqip contains 'data:' %}
+                {% assign lqip = post.media_subpath
+                  | append: '/'
+                  | append: lqip
+                  | replace: '///', '/'
+                  | replace: '//', '/'
+                %}
+              {% endunless %}
+            {% endif %}
+
+            {% assign lqip_attr = 'lqip="' | append: lqip | append: '"' %}
+          {% endif %}
+
+          {% assign alt = post.image.alt | xml_escape | default: 'Preview Image' %}
+
+          <div class="col-md-5">
+            <img src="{{ src }}" alt="{{ alt }}" {{ lqip_attr }}>
+          </div>
+
+          {% assign card_body_col = '7' %}
+        {% endif %}
+
+        <div class="col-md-{{ card_body_col }}">
+          <div class="card-body d-flex flex-column">
+            <h2 class="card-title my-2 mt-md-0">{{ post.title }}</h2>
+
+            <div class="card-text content mt-0 mb-3">
+              <p>{% include post-summary.html %}</p>
+            </div>
+
+            <div class="post-meta flex-grow-1 d-flex align-items-end">
+              <div class="me-auto">
+                <!-- posted date -->
+                <span class="post-meta-date">
+                  <i class="far fa-calendar fa-fw me-1"></i>
+                  <span class="visually-hidden">작성일 </span>
+                  {% include datetime.html date=post.date lang=lang %}
+                </span>
+
+                {% if post.last_modified_at and post.last_modified_at != post.date %}
+                  <span class="post-meta-updated ms-2">
+                    <i class="fas fa-rotate me-1" aria-hidden="true"></i>
+                    <span class="visually-hidden">수정일 </span>
+                    {% include datetime.html date=post.last_modified_at lang=lang %}
+                  </span>
+                {% endif %}
+
+                <!-- categories -->
+                {% if post.categories.size > 0 %}
+                  <span class="category-badges">
+                    {% for category in post.categories %}
+                      {% assign category_color = site.data.category_colors[category] | default: 'neutral' %}
+                      <span class="category-badge category-badge--{{ category_color | escape }}">{{ category | escape }}</span>
+                    {% endfor %}
+                  </span>
+                {% endif %}
+              </div>
+
+              {% if post.recommended or post.pin %}
+                <div class="pin ms-1">
+                  <i class="fas fa-thumbtack fa-fw"></i>
+                  <span>추천글</span>
+                </div>
+              {% endif %}
+            </div>
+            <!-- .post-meta -->
+          </div>
+          <!-- .card-body -->
+        </div>
+      </a>
+    </article>
+  {% endfor %}
+</div>
+<!-- #post-list -->

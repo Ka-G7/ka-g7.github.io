@@ -3,6 +3,11 @@
 vendor
 Gemfile.lock
 
+# Local agent state and cloud credentials
+.codex/
+.agents/
+.aws/
+
 # Jekyll cache
 .jekyll-cache
 .jekyll-metadata

@@ -1,0 +1,75 @@
+---
+layout: default
+---
+
+{% include lang.html %}
+{% assign posts = site.posts | where_exp: 'post', 'post.hidden != true' %}
+{% assign category_names = site.data.categories | default: empty %}
+{% for post in posts %}
+  {% for category_name in post.categories %}
+    {% unless category_names contains category_name %}
+      {% assign category_names = category_names | push: category_name %}
+    {% endunless %}
+  {% endfor %}
+{% endfor %}
+{% assign category_names = category_names | sort_natural %}
+{% assign tag_names = '' | split: '' %}
+{% for post in posts %}
+  {% for tag_name in post.tags %}
+    {% unless tag_names contains tag_name %}
+      {% assign tag_names = tag_names | push: tag_name %}
+    {% endunless %}
+  {% endfor %}
+{% endfor %}
+{% assign tag_names = tag_names | sort_natural %}
+
+<h1 class="dynamic-title">{{ page.title | escape }}</h1>
+<p class="text-muted" data-post-filter-count>전체 {{ posts.size }}개의 글 · 최신순</p>
+
+<section class="post-filter" data-post-filter aria-labelledby="post-filter-title">
+  <div class="post-filter-heading">
+    <h2 id="post-filter-title">필터</h2>
+    <button type="button" class="post-filter-reset" data-post-filter-reset>필터 초기화</button>
+  </div>
+
+  <div class="post-filter-fields">
+    <label class="post-filter-category" for="post-filter-category">
+      <span>카테고리</span>
+      <select id="post-filter-category" data-post-filter-category>
+        <option value="">전체 카테고리</option>
+        {% for category_name in category_names %}
+          <option value="{{ category_name | escape }}">{{ category_name }}</option>
+        {% endfor %}
+      </select>
+    </label>
+
+    <fieldset class="post-filter-tags">
+      <legend>태그 <span class="text-muted">(여러 개 선택 가능)</span></legend>
+      <div class="post-filter-tag-list">
+        {% if tag_names.size > 0 %}
+          {% for tag_name in tag_names %}
+            <label class="post-filter-tag">
+              <input type="checkbox" value="{{ tag_name | escape }}" data-post-filter-tag>
+              <span>{{ tag_name }}</span>
+            </label>
+          {% endfor %}
+        {% else %}
+          <span class="text-muted">등록된 태그가 없습니다.</span>
+        {% endif %}
+      </div>
+    </fieldset>
+  </div>
+
+  <p class="post-filter-status" data-post-filter-status role="status" aria-live="polite"></p>
+</section>
+
+{% include post-cards.html posts=posts filterable=true %}
+<p class="post-filter-empty text-muted" data-post-filter-empty hidden>
+  선택한 카테고리와 태그에 맞는 글이 없습니다.
+</p>
+
+<noscript>
+  <p class="text-muted">JavaScript를 켜면 카테고리와 태그로 글을 필터링할 수 있습니다.</p>
+</noscript>
+
+<script src="{{ '/assets/js/all-posts-filter.js' | relative_url }}" defer></script>
