@@ -171,6 +171,13 @@
     flex: 1;
   }
 
+  .post-filter-tags {
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
   .post-filter-category {
     display: flex;
     flex-direction: column;
