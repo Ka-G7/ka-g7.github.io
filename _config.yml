@@ -16,7 +16,7 @@ timezone: asia/seoul
 
 title: Ka__g7 # the main title
 
-tagline: 닉네임  # it will display as the subtitle
+tagline: 정말 관리를 하긴 할지 걱정되는 블로그 # it will display as the subtitle
 
 description: >- # used by seo meta and the atom feed
   A minimal, responsive and feature-rich Jekyll theme for technical writing.
