@@ -7,8 +7,6 @@ tags: [fuzzing, bugbounty, libsndfile]
 
 # libsndfile 버그 제보 후기
 
-Created: 2026년 11월 6일 오후 2:57
-Updated: 2026년 11월 6일 오후 11:01
 
 # 시작한 계기
 
