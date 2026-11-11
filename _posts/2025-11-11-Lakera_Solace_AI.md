@@ -1,4 +1,10 @@
-# Lakera agent-breaker Solace AI
+---
+title: Lakera agent-breaker Solace AI
+date: 2025-11-11
+categories: [CTF/Wargame]
+tags: [AI, Prompt Injection]
+---
+
 
 # 문제 설명
 
