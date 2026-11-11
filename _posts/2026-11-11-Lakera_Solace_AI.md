@@ -1,6 +1,6 @@
 ---
 title: Lakera agent-breaker Solace AI
-date: 2025-11-11
+date: 2026-11-11
 categories: [CTF/Wargame]
 tags: [AI, Prompt Injection]
 ---

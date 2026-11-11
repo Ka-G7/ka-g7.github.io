@@ -1,6 +1,6 @@
 ---
 title: libsndfile 버그 제보 후기
-date: 2025-11-06
+date: 2026-11-06
 categories: [Bug Bounty]
 tags: [fuzzing, bugbounty, libsndfile]
 ---
